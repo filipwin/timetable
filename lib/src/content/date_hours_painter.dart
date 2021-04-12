@@ -45,8 +45,8 @@ class DateHoursPainter extends CustomPainter {
     }
 
     final hourHeight = size.height / (maxHour - minHour);
-    for (final h in innerDateHours(minHour, maxHour)) {
-      final painter = _painters[h - 1];
+    for (var h = 0; h < (maxHour - minHour); h++) {
+      final painter = _painters[h];
       final y = h * hourHeight - painter.height / 2;
       painter.paint(canvas, Offset(0, y));
     }
