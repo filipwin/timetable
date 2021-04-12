@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:time_machine/time_machine.dart' hide Offset;
 import 'package:time_machine/time_machine_text_patterns.dart';
 
+import '../config.dart';
 import '../utils/utils.dart';
 
 class DateHoursPainter extends CustomPainter {
@@ -39,7 +40,7 @@ class DateHoursPainter extends CustomPainter {
       _lastWidth = size.width;
     }
 
-    final hourHeight = size.height / TimeConstants.hoursPerDay;
+    final hourHeight = size.height / Config.hoursCount;
     for (final h in innerDateHours) {
       final painter = _painters[h - 1];
       final y = h * hourHeight - painter.height / 2;

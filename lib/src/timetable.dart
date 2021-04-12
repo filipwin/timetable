@@ -44,6 +44,8 @@ class Timetable<E extends Event> extends StatelessWidget {
     this.theme,
     this.dateHeaderBuilder,
     this.leadingHeaderBuilder,
+    this.minHour = 0,
+    this.maxHour = 24,
   })  : assert(controller != null),
         assert(eventBuilder != null),
         super(key: key);
@@ -56,6 +58,9 @@ class Timetable<E extends Event> extends StatelessWidget {
   /// If not set, [eventBuilder] will be used instead.
   final AllDayEventBuilder<E> allDayEventBuilder;
   final TimetableThemeData theme;
+
+  final int minHour;
+  final int maxHour;
 
   /// Called when the user taps the background in areas where events are laid
   /// out.

@@ -1,7 +1,7 @@
 import 'package:black_hole_flutter/black_hole_flutter.dart';
 import 'package:flutter/widgets.dart';
-import 'package:time_machine/time_machine.dart';
 
+import '../config.dart';
 import '../controller.dart';
 import '../event.dart';
 import '../theme.dart';
@@ -16,6 +16,8 @@ class TimetableContent<E extends Event> extends StatelessWidget {
     @required this.controller,
     @required this.eventBuilder,
     this.onEventBackgroundTap,
+    this.minHour,
+    this.maxHour,
   })  : assert(controller != null),
         assert(eventBuilder != null),
         super(key: key);
@@ -23,6 +25,9 @@ class TimetableContent<E extends Event> extends StatelessWidget {
   final TimetableController<E> controller;
   final EventBuilder<E> eventBuilder;
   final OnEventBackgroundTapCallback onEventBackgroundTap;
+
+  final int minHour;
+  final int maxHour;
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +37,9 @@ class TimetableContent<E extends Event> extends StatelessWidget {
     return VerticalZoom(
       initialZoom: controller.initialTimeRange.asInitialZoom(),
       minChildHeight:
-          (timetableTheme?.minimumHourHeight ?? 16) * TimeConstants.hoursPerDay,
+          (timetableTheme?.minimumHourHeight ?? 16) * Config.hoursCount,
       maxChildHeight:
-          (timetableTheme?.maximumHourHeight ?? 64) * TimeConstants.hoursPerDay,
+          (timetableTheme?.maximumHourHeight ?? 64) * Config.hoursCount,
       child: Row(
         children: <Widget>[
           Container(
