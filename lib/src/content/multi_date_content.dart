@@ -18,6 +18,8 @@ class MultiDateContent<E extends Event> extends StatefulWidget {
     @required this.controller,
     @required this.eventBuilder,
     this.onEventBackgroundTap,
+    this.minHour,
+    this.maxHour,
   })  : assert(controller != null),
         assert(eventBuilder != null),
         super(key: key);
@@ -25,6 +27,9 @@ class MultiDateContent<E extends Event> extends StatefulWidget {
   final TimetableController<E> controller;
   final EventBuilder<E> eventBuilder;
   final OnEventBackgroundTapCallback onEventBackgroundTap;
+
+  final int minHour;
+  final int maxHour;
 
   @override
   _MultiDateContentState<E> createState() => _MultiDateContentState<E>();
@@ -47,6 +52,8 @@ class _MultiDateContentState<E extends Event>
     final timetableTheme = context.timetableTheme;
     return CustomPaint(
       painter: MultiDateBackgroundPainter(
+        minHour: widget.minHour,
+        maxHour: widget.maxHour,
         controller: widget.controller,
         dividerColor: timetableTheme?.dividerColor ?? theme.dividerColor,
       ),
