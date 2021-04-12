@@ -1,3 +1,3 @@
 class Config {
-  static const int hoursCount = 12;
+  // static const int hoursCount = 12;
 }

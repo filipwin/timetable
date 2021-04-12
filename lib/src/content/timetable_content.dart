@@ -1,7 +1,6 @@
 import 'package:black_hole_flutter/black_hole_flutter.dart';
 import 'package:flutter/widgets.dart';
 
-import '../config.dart';
 import '../controller.dart';
 import '../event.dart';
 import '../theme.dart';
@@ -37,9 +36,9 @@ class TimetableContent<E extends Event> extends StatelessWidget {
     return VerticalZoom(
       initialZoom: controller.initialTimeRange.asInitialZoom(),
       minChildHeight:
-          (timetableTheme?.minimumHourHeight ?? 16) * Config.hoursCount,
+          (timetableTheme?.minimumHourHeight ?? 16) * (maxHour - minHour),
       maxChildHeight:
-          (timetableTheme?.maximumHourHeight ?? 64) * Config.hoursCount,
+          (timetableTheme?.maximumHourHeight ?? 64) * (maxHour - minHour),
       child: Row(
         children: <Widget>[
           Container(
@@ -47,6 +46,8 @@ class TimetableContent<E extends Event> extends StatelessWidget {
             padding: EdgeInsets.only(right: 12),
             child: CustomPaint(
               painter: DateHoursPainter(
+                minHour: minHour,
+                maxHour: maxHour,
                 textStyle: timetableTheme?.hourTextStyle ??
                     theme.textTheme.caption.copyWith(
                       color: context.theme.disabledOnBackground,

@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 
-import '../config.dart';
 import '../controller.dart';
 import '../event.dart';
 import '../utils/utils.dart';
@@ -9,6 +8,8 @@ class MultiDateBackgroundPainter<E extends Event> extends CustomPainter {
   MultiDateBackgroundPainter({
     @required this.controller,
     @required Color dividerColor,
+    this.minHour,
+    this.maxHour,
   })  : assert(controller != null),
         assert(dividerColor != null),
         dividerPaint = Paint()..color = dividerColor,
@@ -16,6 +17,8 @@ class MultiDateBackgroundPainter<E extends Event> extends CustomPainter {
 
   final TimetableController<E> controller;
   final Paint dividerPaint;
+  final int minHour;
+  final int maxHour;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -36,8 +39,8 @@ class MultiDateBackgroundPainter<E extends Event> extends CustomPainter {
   }
 
   void _drawHourDividers(Canvas canvas, Size size) {
-    final heightPerHour = size.height / Config.hoursCount;
-    for (final h in innerDateHours) {
+    final heightPerHour = size.height / (maxHour - minHour);
+    for (final h in innerDateHours(minHour, maxHour)) {
       final y = h * heightPerHour;
       canvas.drawLine(Offset(-8, y), Offset(size.width, y), dividerPaint);
     }

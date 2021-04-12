@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:time_machine/time_machine.dart' hide Offset;
 import 'package:time_machine/time_machine_text_patterns.dart';
 
-import '../config.dart';
 import '../utils/utils.dart';
 
 class DateHoursPainter extends CustomPainter {
   DateHoursPainter({
     @required this.textStyle,
     @required this.textDirection,
+    this.minHour,
+    this.maxHour,
   })  : assert(textStyle != null),
         assert(textDirection != null),
         _painters = [
-          for (final h in innerDateHours)
+          for (final h in innerDateHours(minHour, maxHour))
             TextPainter(
               text: TextSpan(
                 text: _pattern.format(LocalTime(h, 0, 0)),
@@ -29,6 +30,9 @@ class DateHoursPainter extends CustomPainter {
   final TextDirection textDirection;
   final List<TextPainter> _painters;
 
+  final int minHour;
+  final int maxHour;
+
   double _lastWidth;
 
   @override
@@ -40,8 +44,8 @@ class DateHoursPainter extends CustomPainter {
       _lastWidth = size.width;
     }
 
-    final hourHeight = size.height / Config.hoursCount;
-    for (final h in innerDateHours) {
+    final hourHeight = size.height / (maxHour - minHour);
+    for (final h in innerDateHours(minHour, maxHour)) {
       final painter = _painters[h - 1];
       final y = h * hourHeight - painter.height / 2;
       painter.paint(canvas, Offset(0, y));

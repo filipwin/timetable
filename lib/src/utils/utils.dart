@@ -1,14 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:time_machine/time_machine.dart';
 
-import '../config.dart';
-
 extension TimetableLocalDate on LocalDate {
   bool get isToday => this == LocalDate.today();
 }
 
-final List<int> innerDateHours =
-    List.generate(Config.hoursCount - 1, (i) => i + 1);
+List<int> innerDateHours(int minHour, int maxHour) =>
+    List.generate(maxHour - minHour, (i) => minHour + i);
 
 extension TimetableLocalDateTime on LocalDateTime {
   static LocalDateTime minIsoValue =

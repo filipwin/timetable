@@ -92,6 +92,8 @@ class Timetable<E extends Event> extends StatelessWidget {
         ),
         Expanded(
           child: TimetableContent<E>(
+            minHour: minHour,
+            maxHour: maxHour,
             controller: controller,
             eventBuilder: eventBuilder,
             onEventBackgroundTap: onEventBackgroundTap,
