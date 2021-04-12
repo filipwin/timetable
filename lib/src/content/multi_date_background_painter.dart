@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 
 import '../controller.dart';
 import '../event.dart';
-import '../utils/utils.dart';
 
 class MultiDateBackgroundPainter<E extends Event> extends CustomPainter {
   MultiDateBackgroundPainter({
@@ -40,7 +39,7 @@ class MultiDateBackgroundPainter<E extends Event> extends CustomPainter {
 
   void _drawHourDividers(Canvas canvas, Size size) {
     final heightPerHour = size.height / (maxHour - minHour);
-    for (final h in innerDateHours(minHour, maxHour)) {
+    for (var h = 0; h < (maxHour - minHour); h++) {
       final y = h * heightPerHour;
       canvas.drawLine(Offset(-8, y), Offset(size.width, y), dividerPaint);
     }
