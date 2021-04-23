@@ -12,6 +12,8 @@ class StreamedDateEvents<E extends Event> extends StatelessWidget {
     @required this.date,
     @required this.controller,
     @required this.eventBuilder,
+    @required this.minHour,
+    @required this.maxHour,
   })  : assert(date != null),
         assert(controller != null),
         assert(eventBuilder != null);
@@ -19,6 +21,9 @@ class StreamedDateEvents<E extends Event> extends StatelessWidget {
   final LocalDate date;
   final TimetableController<E> controller;
   final EventBuilder<E> eventBuilder;
+
+  final int minHour;
+  final int maxHour;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +33,8 @@ class StreamedDateEvents<E extends Event> extends StatelessWidget {
       builder: (context, snapshot) {
         final events = snapshot.data ?? [];
         return DateEvents<E>(
+          minHour: minHour,
+          maxHour: maxHour,
           date: date,
           events: events,
           eventBuilder: eventBuilder,

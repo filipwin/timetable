@@ -75,6 +75,8 @@ class _MultiDateContentState<E extends Event>
                       }
                     : null,
                 child: StreamedDateEvents<E>(
+                  minHour: widget.minHour,
+                  maxHour: widget.maxHour,
                   date: date,
                   controller: widget.controller,
                   eventBuilder: widget.eventBuilder,

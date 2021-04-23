@@ -16,6 +16,8 @@ class DateEvents<E extends Event> extends StatelessWidget {
     @required this.date,
     @required Iterable<E> events,
     @required this.eventBuilder,
+    @required this.minHour,
+    @required this.maxHour,
   })  : assert(date != null),
         assert(events != null),
         assert(
@@ -45,12 +47,17 @@ class DateEvents<E extends Event> extends StatelessWidget {
   final List<E> events;
   final EventBuilder<E> eventBuilder;
 
+  final int minHour;
+  final int maxHour;
+
   @override
   Widget build(BuildContext context) {
     final timetableTheme = context.timetableTheme;
 
     return CustomMultiChildLayout(
       delegate: _DayEventsLayoutDelegate(
+        minHour: minHour,
+        maxHour: maxHour,
         date: date,
         events: events,
         minEventDuration: timetableTheme?.partDayEventMinimumDuration ??
@@ -89,6 +96,8 @@ class _DayEventsLayoutDelegate<E extends Event>
     @required this.enableStacking,
     @required this.minimumDeltaForStacking,
     @required this.stackedEventSpacing,
+    @required this.minHour,
+    @required this.maxHour,
   })  : assert(date != null),
         assert(events != null),
         assert(minEventDuration != null),
@@ -110,6 +119,9 @@ class _DayEventsLayoutDelegate<E extends Event>
   final Period minimumDeltaForStacking;
   final double stackedEventSpacing;
 
+  final int minHour;
+  final int maxHour;
+
   @override
   void performLayout(Size size) {
     final positions = _calculatePositions(size.height);
@@ -120,14 +132,17 @@ class _DayEventsLayoutDelegate<E extends Event>
       } else if (dateTime.calendarDate > date) {
         return size.height;
       } else {
-        final progress = dateTime.clockTime.timeSinceMidnight.inMilliseconds /
-            TimeConstants.millisecondsPerDay;
+        final startLocalTime = LocalTime(minHour, 0, 0);
+        final endLocalTime = LocalTime(maxHour, 0, 0);
+        final msInDayRange = (endLocalTime.timeSinceMidnight - startLocalTime.timeSinceMidnight).inMilliseconds;
+        final timeSinceStartingHour = (dateTime.clockTime.timeSinceMidnight - startLocalTime.timeSinceMidnight);
+        final progress = timeSinceStartingHour.inMilliseconds / msInDayRange;
         return lerpDouble(0, size.height, progress);
       }
     }
 
     double periodToY(Period period) =>
-        timeToY(date.at(LocalTime.midnight) + period);
+        timeToY(date.at(LocalTime(minHour, 0, 0)) + period);
 
     for (final event in events) {
       final position = positions.eventPositions[event];
