@@ -5,6 +5,8 @@ extension TimetableLocalDate on LocalDate {
   bool get isToday => this == LocalDate.today();
 }
 
+LocalTime localTimeHour(int hour) => LocalTime(hour, 0, 0);
+
 List<int> innerDateHours(int minHour, int maxHour) =>
     List.generate(maxHour - minHour, (i) => minHour + i);
 

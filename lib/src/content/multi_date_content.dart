@@ -58,6 +58,8 @@ class _MultiDateContentState<E extends Event>
         dividerColor: timetableTheme?.dividerColor ?? theme.dividerColor,
       ),
       foregroundPainter: CurrentTimeIndicatorPainter(
+        minHour: widget.minHour,
+        maxHour: widget.maxHour,
         controller: widget.controller,
         color: timetableTheme?.timeIndicatorColor ??
             theme.highEmphasisOnBackground,
